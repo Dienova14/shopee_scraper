@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scraping Berjalan</title>
+    <meta http-equiv="refresh" content="3">
+</head>
+<body>
+    <h2>🔄 Scraping Shopee sedang berjalan...</h2>
+    <pre>
+{% for line in log %}
+{{ line }}
+{% endfor %}
+    </pre>
+
+    {% if log and '✅ Selesai!' in log[-1] %}
+    <br>
+    <a href="/download">⬇️ Download Hasil CSV</a>
+    {% endif %}
+</body>
+</html>
