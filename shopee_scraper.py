@@ -29,6 +29,21 @@ def scrape_product(product_url, output_csv_path, log_func=print, driver=None):
         except:
             log_func("⚠️ Gagal menemukan section review di awal.")
 
+        try:
+            filter_button = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((
+                    By.XPATH,
+                    '//div[contains(@class, "product-rating-overview__filter") and contains(text(), "komentar")]'
+                ))
+            )
+            driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", filter_button)
+            time.sleep(1)
+            filter_button.click()
+            log_func("✅ Klik filter 'dengan komentar' berhasil.")
+            time.sleep(2)
+        except Exception as e:
+            log_func(f"⚠️ Gagal klik filter komentar: {e}")
+
         def scroll_review_section():
             try:
                 section = driver.find_element(By.CLASS_NAME, "product-ratings__list")
