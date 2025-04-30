@@ -173,6 +173,14 @@ def scrape_product(product_url, output_csv_path, log_func=print, driver=None):
         all_attribute_keys = set()
 
         while True:
+            try:
+                from app import SESSION
+                if SESSION.get("stop"):
+                    log_func("🛑 Scraping dihentikan manual dari web.")
+                    break
+            except:
+                pass
+            
             log_func(f"📄 Scraping halaman {page}...")
             if not wait_reviews():
                 break

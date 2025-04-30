@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, send_file, redirect, url_for
 from shopee_scraper import scrape_product
 import threading, os
 from datetime import datetime
+from waitress import serve
 
 app = Flask(__name__)
 OUTPUT_DIR = "output"
@@ -11,7 +12,8 @@ SESSION = {
     "driver": None,
     "product_url": None,
     "output_csv": None,
-    "status_log": []
+    "status_log": [],
+    "stop": False
 }
 
 def log_to_session(msg):
@@ -47,6 +49,7 @@ def wait_login():
 
 @app.route("/start-scraping", methods = ["POST"])
 def start_scraping():
+    SESSION["stop"] = False
     def scraping_thread():
         try:
             scrape_product(
@@ -73,3 +76,12 @@ def download():
         return "❌ File belum tersedia atau gagal dibuat.", 404
     return send_file(filepath, as_attachment=True)
 
+@app.route("/stop-scraping", methods=["POST"])
+def stop_scraping():
+    SESSION["stop"] = True
+    log_to_session("🛑 Permintaan stop diterima. Scraping akan dihentikan...")
+    return redirect(url_for("wait_result"))
+
+
+if __name__ == "__main__":
+    serve(app, host="0.0.0.0", port=8080)
