@@ -1,4 +1,2 @@
 flask
-waitress
 selenium
-undetected-chromedriver

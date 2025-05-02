@@ -1,18 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
     <title>Login Shopee</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #f6f8fc, #e3efff);
+            color: #333;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #ff5722;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+
+        form button {
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        form button:hover {
+            background-color: #e64a19;
+        }
+
+        pre {
+            background-color: #f1f1f1;
+            padding: 20px;
+            text-align: left;
+            border-radius: 5px;
+            max-width: 700px;
+            margin: 40px auto 0 auto;
+            font-size: 14px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+    </style>
 </head>
 <body>
     <h2>👋 Silakan login ke Shopee</h2>
-    <p>Setelah login manual selesai, klik untuk mulai scraping:</p>
+    <p>Setelah login manual selesai, klik tombol di bawah untuk mulai scraping:</p>
+
     <form action="{{ url_for('start_scraping') }}" method="POST">
-        <button type="submit">Done Login</button>
+        <button type="submit">✅ Saya sudah login</button>
     </form>
+
+    {% if log %}
     <pre>
 {% for line in log %}
 {{ line }}
 {% endfor %}
     </pre>
+    {% endif %}
 </body>
 </html>

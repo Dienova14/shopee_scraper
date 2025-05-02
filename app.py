@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, send_file, redirect, url_for
 from shopee_scraper import scrape_product
 import threading, os
 from datetime import datetime
-from waitress import serve
 
 app = Flask(__name__)
 OUTPUT_DIR = "output"
@@ -82,6 +81,9 @@ def stop_scraping():
     log_to_session("🛑 Permintaan stop diterima. Scraping akan dihentikan...")
     return redirect(url_for("wait_result"))
 
-
 if __name__ == "__main__":
-    serve(app, host="0.0.0.0", port=8080)
+    from flaskwebgui import FlaskUI
+
+    ui = FlaskUI(app=app, server="flask", width=1000, height=700)
+    ui.run()
+
